@@ -1,0 +1,17 @@
+[
+  {
+    "Name": "Savings",
+    "Value": 4550.00,
+    "Percent": 42
+  },
+  {
+    "Name": "Expenses",
+    "Value": 3460.50,
+    "Percent": 42
+  },
+  {
+    "Name": "Treats",
+    "Value": 1220.00,
+    "Percent": 16
+  }
+]
