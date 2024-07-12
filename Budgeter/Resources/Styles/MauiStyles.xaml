@@ -22,14 +22,14 @@
     </Style>
 
     <Style TargetType="Button">
-        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource White}}" />
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource PrimaryDarkText}}" />
         <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}" />
         <Setter Property="FontFamily" Value="sans-serif-condensed" />
         <Setter Property="FontSize" Value="14" />
         <Setter Property="BorderWidth" Value="0" />
         <Setter Property="CornerRadius" Value="5" />
         <Setter Property="Padding" Value="14,10" />
-        <Setter Property="HeightRequest" Value="55"/>
+        <Setter Property="MinimumHeightRequest" Value="44" />
         <Setter Property="MinimumWidthRequest" Value="44" />
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
@@ -159,7 +159,7 @@
     </Style>
 
     <Style TargetType="Label">
-        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource White}}" />
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}" />
         <Setter Property="BackgroundColor" Value="Transparent" />
         <Setter Property="FontFamily" Value="sans-serif-condensed" />
         <Setter Property="FontSize" Value="14" />
