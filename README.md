@@ -1,11 +1,16 @@
 # Budgeter by Oliver Matheus
 
-The Budgeter is a personal project I've started in order to learn more about what I can accomplish developing software.
+This is a personal side project I've started in order to learn more about what I can personally accomplish as a software engineer.
+
+My goal with the Budgeter is to make a streamlined, simple, convenient, but powerful tool to organize and track your purchases. This is inspired by a personal problem of
+losing track of how much I've spent on certain aspects of my life. 
 
 ## Features:
 - [x] Open budgets from a JSON/CSV file
 - [ ] Save budgets to a JSON/CSV file
 - [ ] Log money either into total or into a certain split [^1]
+- [ ] Create unlimited custom splits
+- [ ] Plan future purchases under any splits
 - [ ] Sort splits cards[^2] by percentage, money, & alphabetically
 - [ ] App themes
 
