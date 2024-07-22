@@ -10,6 +10,12 @@
                 <ResourceDictionary Source="Resources/Styles/Colors.xaml" />
                 <ResourceDictionary Source="Resources/Styles/Styles.xaml" />
             </ResourceDictionary.MergedDictionaries>
+
+            <Color x:Key="LightGradient1">#22EE44</Color>
+            <Color x:Key="LightGradient2">#047E23</Color>
+
+            <Color x:Key="DarkGradient1">#004E0D</Color>
+            <Color x:Key="DarkGradient2">#001806</Color>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

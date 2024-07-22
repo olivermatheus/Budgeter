@@ -13,14 +13,14 @@
 		{
 			var window = base.CreateWindow(activationState);
 
-			const int newWidth = 865;
-			const int newHeight = 535;
+			const int newWidth = 925;
+			const int newHeight = 615;
 
 			window.Width = newWidth;
 			window.Height = newHeight;
 
-			//window.MinimumHeight = window.MaximumHeight = window.Height = newHeight;
-			//window.MinimumWidth = window.MaximumWidth = window.Width = newWidth;
+			// window.MinimumHeight = window.MaximumHeight = window.Height = newHeight;
+			// window.MinimumWidth = window.MaximumWidth = window.Width = newWidth;
 
 			return window;
 		}
