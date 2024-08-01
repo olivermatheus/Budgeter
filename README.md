@@ -2,8 +2,7 @@
 
 This is a personal side project I've started in order to learn more about what I can personally accomplish as a software engineer.
 
-My goal with the Budgeter is to make a streamlined, simple, convenient, but powerful tool to organize and track your purchases. This is inspired by a personal problem of
-losing track of how much I've spent on certain aspects of my life. 
+My goal with the Budgeter is to make a streamlined, simple, convenient, but powerful tool to organize and track your purchases. 
 
 ## Features:
 - [x] Open budgets from a JSON/CSV file
