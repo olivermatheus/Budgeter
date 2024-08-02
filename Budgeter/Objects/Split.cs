@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Budgeter.Objects
+namespace Budgeter
 {
 	public class Split
 	{
 		public string Name { get; set; }
-		public int Value { get; set; }
-		public string Percent { get; set; }
+		public double Value { get; set; }
+		public double Percent { get; set; }
 	}
 }

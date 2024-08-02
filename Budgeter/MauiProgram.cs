@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Budgeter.ViewModels;
+using Microsoft.Extensions.Logging;
 
 namespace Budgeter
 {
@@ -18,7 +19,14 @@ namespace Budgeter
 #if DEBUG
 			builder.Logging.AddDebug();
 #endif
+			var services = builder.Services;
 
+			services.AddSingleton<MainViewModel>();
+			services.AddSingleton<MainPage>(s => new MainPage()
+			{
+				BindingContext = s.GetRequiredService<MainViewModel>()
+			});
+			
 			return builder.Build();
 		}
 	}
