@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using System.Collections.ObjectModel;
+using System.Text.Json;
 using Budgeter.ViewModels;
 
 namespace Budgeter
@@ -22,12 +23,12 @@ namespace Budgeter
 			];
 		}
 
-		public static List<Split> GetDefaultSplits(string defaultSplit)
+		public static ObservableCollection<Split> GetDefaultSplits(string defaultSplit)
 		{
 			// retrieve json from file system as string
 			string myJson = LoadMauiAsset(defaultSplit).Result;
 
-			return JsonSerializer.Deserialize<List<Split>>(myJson);
+			return JsonSerializer.Deserialize<ObservableCollection<Split>>(myJson);
 		}
 
 		static async Task<string> LoadMauiAsset(string asset)
@@ -45,7 +46,7 @@ namespace Budgeter
 			}
 		}
 
-		public static string CalculateTotal(List<Split> splits)
+		public static string CalculateTotal(ObservableCollection<Split> splits)
 		{
 			double total = 0;
 			for (int i=0; i<splits.Count; i++) {
@@ -56,5 +57,31 @@ namespace Budgeter
 
 			return totalFormatted; 
 		}
+
+		// CSV version
+		// public List<Split> ReadCsv()
+		// {
+		// 	using var stream = FileSystem.OpenAppPackageFileAsync("default_split.csv").Result;
+		// 	using var reader = new StreamReader(stream);
+		// 	using var csv = new CsvReader(reader, new CsvConfiguration(CultureInfo.InvariantCulture));
+
+		// 	var records = csv.GetRecords<Split>().ToList();
+		// 	return records;
+		// }
+
+		// static async Task<string> LoadMauiAssetCSV(string asset)
+		// {
+		// 	try
+		// 	{
+		// 		using var stream = FileSystem.OpenAppPackageFileAsync("default_split.json").Result;
+		// 		using var reader = new StreamReader(stream);
+
+		// 		return reader.ReadToEnd();
+		// 	}
+		// 	catch (Exception ex)
+		// 	{
+		// 		return "";
+		// 	}
+		// }
 	}
 }

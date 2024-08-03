@@ -25,7 +25,7 @@
             ColumnDefinitions="1*,1*,1*"
             ColumnSpacing="16"
             MaximumWidthRequest="450"
-            RowDefinitions="4*,1*,1*,1*"
+            RowDefinitions="5*,1*,1*,1*"
             RowSpacing="16"
             VerticalOptions="Center">
             <Image
@@ -53,13 +53,13 @@
                 FontAttributes="Bold"
                 FontSize="Large"
                 HorizontalOptions="End"
-                Text="{Binding Total, StringFormat='{0:0,0}'}"
+                Text="{Binding TotalValue, StringFormat='{0:0,0}'}"
                 VerticalOptions="Center" />
             <Button
                 Grid.Row="2"
                 Grid.ColumnSpan="3"
                 FontAttributes="Bold"
-                FontSize="28"
+                FontSize="30"
                 Text="DEPOSIT"/>
             <ImageButton
                 Grid.Row="3"
@@ -99,14 +99,8 @@
                         <Border.StrokeShape>
                             <RoundRectangle CornerRadius="8"/>
                         </Border.StrokeShape>
-                        <!--<Frame.Background>
-                        <LinearGradientBrush EndPoint="0,2">
-                        <GradientStop Offset="0" Color="#31984e" />
-                        <GradientStop Offset="1" Color="LightGreen" />
-                        </LinearGradientBrush>
-                        </Frame.Background>-->
                         <Border.GestureRecognizers>
-                            <!--<TapGestureRecognizer Command="{Binding OnFrameTapped}" />-->
+                            <TapGestureRecognizer Command="{Binding SplitTappedCommand}" />
                             <!-- <DragGestureRecognizer CanDrag="True" /> -->
                         </Border.GestureRecognizers>
                         <Grid
@@ -167,7 +161,8 @@
                     Margin="0,8,0,15"
                     VerticalOptions="End"
                     HeightRequest="70"
-                    Source="add.png" />
+                    Source="add.png" 
+                    Command="{Binding AddSplitCommand}"/>
             </CollectionView.Footer>
         </CollectionView>
     </Grid>

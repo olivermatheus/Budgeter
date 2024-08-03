@@ -1,4 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using Microsoft.VisualBasic;
+using System.Collections.ObjectModel;
 using System.Text.Json;
 
 namespace Budgeter.ViewModels
@@ -8,7 +11,7 @@ namespace Budgeter.ViewModels
         public MainViewModel() {
 			// splitsCollection = MainPage.SetSplits();
 			splitsCollection = MainPage.GetDefaultSplits("default_split.json");
-			total = MainPage.CalculateTotal(splitsCollection);
+			totalValue = MainPage.CalculateTotal(splitsCollection);
         }
 
         [ObservableProperty]
@@ -16,34 +19,21 @@ namespace Budgeter.ViewModels
         [ObservableProperty]
         double value, percent;
 		[ObservableProperty]
-		string total;
+		string totalValue;
 
         [ObservableProperty]
-        List<Split> splitsCollection = [];
+        ObservableCollection<Split> splitsCollection = [];
 
-		// public List<Split> ReadCsv()
-		// {
-		// 	using var stream = FileSystem.OpenAppPackageFileAsync("default_split.csv").Result;
-		// 	using var reader = new StreamReader(stream);
-		// 	using var csv = new CsvReader(reader, new CsvConfiguration(CultureInfo.InvariantCulture));
+		[RelayCommand]
+		void SplitTapped() {
+			Console.WriteLine("EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
+		}
 
-		// 	var records = csv.GetRecords<Split>().ToList();
-		// 	return records;
-		// }
+		[RelayCommand]
+		void AddSplit() {
+			splitsCollection.Add(new Split { Name = "TEST", Value = 2, Percent = 0.2 });
+		}
 
-		// static async Task<string> LoadMauiAssetCSV(string asset)
-		// {
-		// 	try
-		// 	{
-		// 		using var stream = FileSystem.OpenAppPackageFileAsync("default_split.json").Result;
-		// 		using var reader = new StreamReader(stream);
 
-		// 		return reader.ReadToEnd();
-		// 	}
-		// 	catch (Exception ex)
-		// 	{
-		// 		return "";
-		// 	}
-		// }
 	}
 }
