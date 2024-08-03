@@ -25,8 +25,8 @@ namespace Budgeter.ViewModels
         ObservableCollection<Split> splitsCollection = [];
 
 		[RelayCommand]
-		void SplitTapped() {
-			Console.WriteLine("EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
+		void OpenSplit() {
+			splitsCollection.Add(new Split { Name = "OPEN SUCCESS", Value = 0, Percent = 0 });
 		}
 
 		[RelayCommand]
@@ -34,6 +34,12 @@ namespace Budgeter.ViewModels
 			splitsCollection.Add(new Split { Name = "TEST", Value = 2, Percent = 0.2 });
 		}
 
+		[RelayCommand]
+		void RemoveSplit(Split s) {
+			if(splitsCollection.Contains(s)) {
+				splitsCollection.Remove(s);
+			}
+		}
 
 	}
 }

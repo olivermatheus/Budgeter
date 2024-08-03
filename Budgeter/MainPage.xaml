@@ -82,6 +82,7 @@
             Background="Transparent"
             HeightRequest="575"/>
         <CollectionView
+            x:Name="splits"
             ItemsSource="{Binding SplitsCollection}"
             ZIndex="1"
             Grid.Column="1"
@@ -95,12 +96,10 @@
                     <Border
                         Grid.Column="0"
                         Padding="10,4,10,5"
-                        HeightRequest="140">
-                        <Border.StrokeShape>
-                            <RoundRectangle CornerRadius="8"/>
-                        </Border.StrokeShape>
+                        HeightRequest="160"
+                        StrokeShape="RoundRectangle 8">
                         <Border.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding SplitTappedCommand}" />
+                            <TapGestureRecognizer Command="{Binding BindingContext.OpenSplitCommand, Source={x:Reference splits}}" />
                             <!-- <DragGestureRecognizer CanDrag="True" /> -->
                         </Border.GestureRecognizers>
                         <Grid
