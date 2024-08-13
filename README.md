@@ -1,6 +1,6 @@
 # Budgeter by Oliver Matheus
 
-![Budgeter Logo](Budgeter/Resources/Images/budgeter.png)
+![Budgeter Logo](https://github.com/olivermatheus/Budgeter/blob/in-progress/Budgeter/Resources/Images/budgeter.png)
 
 This is a personal side project I've started in order to learn more about what I can personally accomplish as a software engineer.
 
