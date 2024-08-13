@@ -1,5 +1,7 @@
 # Budgeter by Oliver Matheus
 
+![alt text](https://www.github.com/olivermatheus/Budgeter/blob/in-progress/Budgeter/Resources/Images/budgeter.png)
+
 This is a personal side project I've started in order to learn more about what I can personally accomplish as a software engineer.
 
 My goal with the Budgeter is to make a streamlined, simple, convenient, but powerful tool to organize and track your purchases. 
