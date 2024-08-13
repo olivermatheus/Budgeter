@@ -46,16 +46,14 @@ namespace Budgeter
 			}
 		}
 
-		public static string CalculateTotal(ObservableCollection<Split> splits)
+		public static decimal CalculateTotal(ObservableCollection<Split> splits)
 		{
-			double total = 0;
+			decimal total = 0;
 			for (int i=0; i<splits.Count; i++) {
-				total += splits[i].Value;
+				total += splits[i].Value ;
 			}
 
-			string totalFormatted = total.ToString("C", new System.Globalization.CultureInfo("en-US"));
-
-			return totalFormatted; 
+			return total; 
 		}
 
 		// CSV version

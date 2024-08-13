@@ -9,7 +9,8 @@ namespace Budgeter
 	public class Split
 	{
 		public string Name { get; set; }
-		public double Value { get; set; }
+		public decimal Value { get; set; }
 		public double Percent { get; set; }
+		public int ID { get; set; }
 	}
 }

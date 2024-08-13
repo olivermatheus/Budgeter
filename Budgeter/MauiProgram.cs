@@ -18,8 +18,13 @@ namespace Budgeter
             builder.Logging.AddDebug();
 #endif
             var services = builder.Services;
+
             services.AddSingleton<MainViewModel>();
             services.AddSingleton<MainPage>(s => new MainPage() { BindingContext = s.GetRequiredService<MainViewModel>() });
+
+            services.AddTransient<DetailPage>();
+            services.AddTransient<DetailViewModel>();
+
             return builder.Build();
         }
     }

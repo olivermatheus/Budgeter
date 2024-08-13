@@ -19,25 +19,30 @@ namespace Budgeter.ViewModels
         [ObservableProperty]
         double value, percent;
 		[ObservableProperty]
-		string totalValue;
+		decimal totalValue;
 
         [ObservableProperty]
         ObservableCollection<Split> splitsCollection = [];
 
 		[RelayCommand]
-		void OpenSplit() {
-			splitsCollection.Add(new Split { Name = "OPEN SUCCESS", Value = 0, Percent = 0 });
+		async void OpenSplit(Split split) {
+			// splitsCollection.Add(new Split { Name = "OPEN SUCCESS", Value = 0, Percent = 0 });
+
+			await Shell.Current.GoToAsync($"{nameof(DetailPage)}", 
+			new Dictionary<string, object> {
+				{nameof(DetailPage), split},
+			});
 		}
 
 		[RelayCommand]
 		void AddSplit() {
-			splitsCollection.Add(new Split { Name = "TEST", Value = 2, Percent = 0.2 });
+			SplitsCollection.Add(new Split { Name = "TEST", Value = 2, Percent = 0.2, ID=3 });
 		}
 
 		[RelayCommand]
 		void RemoveSplit(Split s) {
-			if(splitsCollection.Contains(s)) {
-				splitsCollection.Remove(s);
+			if(SplitsCollection.Contains(s)) {
+				SplitsCollection.Remove(s);
 			}
 		}
 
