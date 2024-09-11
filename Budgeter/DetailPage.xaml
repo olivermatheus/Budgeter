@@ -14,9 +14,13 @@
 
     <Border StrokeShape="RoundRectangle 8" WidthRequest="600">
         <VerticalStackLayout Spacing="20" VerticalOptions="Center">
-            <Label 
-                Text="{Binding ThisSplit.Id}"
+            <Label
+                Text="Name"
                 FontSize="Header"
+                HorizontalOptions="Center" />
+            <Label
+                Text="{Binding ThisSplit.Id}"
+                FontSize="Title"
                 HorizontalOptions="Center" />
             <Entry 
                 x:Name="NameEntry"

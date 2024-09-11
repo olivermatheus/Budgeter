@@ -40,6 +40,14 @@ namespace Budgeter.ViewModels;
 
 		[RelayCommand]
 		async Task OpenSplit(Split thisSplit) { 
+			int tempId = thisSplit.Id;
+			var itemToRemove = SplitsCollection.FirstOrDefault(s => s.Id == tempId);
+
+			// If found, remove it from the collection
+			if (itemToRemove != null)
+			{
+				SplitsCollection.Remove(itemToRemove);
+			}
 			await Shell.Current.GoToAsync(nameof(DetailPage), 
 			new Dictionary<string, object> {
 				{"Split", thisSplit},
@@ -47,8 +55,34 @@ namespace Budgeter.ViewModels;
 		}
 
 		[RelayCommand]
-		void NewSplit() {
-			SplitsCollection.Add(new Split { Name = "TEST", Value = 2, Percent = 0.2, Id=4 });
+		async Task NewSplit() {
+			// SplitsCollection.Add(new Split { Name = "TEST", Value = 2, Percent = 0.2, Id=4 });
+			int counter = 0, newId = 0;
+			bool idFound = false;
+			int[] ids = new int[SplitsCollection.Count];
+
+			// iterate through existing IDs until an unused integer is found
+			while(counter < SplitsCollection.Count) {
+				ids[counter] = SplitsCollection[counter].Id;
+				counter++;
+			}
+			
+			counter=0;
+			while(idFound == false) {
+				newId++;
+				if(ids[counter] != newId) {
+					idFound=true;
+				}
+				counter++;
+			}
+			
+			
+			Split newSplit = new Split { Name = "--", Value = 0, Percent = 0, Id=newId };
+
+			await Shell.Current.GoToAsync(nameof(DetailPage), 
+			new Dictionary<string, object> {
+				{"Split", newSplit},
+			});
 		}
 
 		void RemoveSplit(Split s) {
@@ -58,14 +92,6 @@ namespace Budgeter.ViewModels;
 		}
 
 		void ChangeSplit(Split s) {
-			int tempId = s.Id;
-			var itemToRemove = SplitsCollection.FirstOrDefault(s => s.Id == tempId);
-
-			// If found, remove it from the collection
-			if (itemToRemove != null)
-			{
-				SplitsCollection.Remove(itemToRemove);
-			}
 			
 			SplitsCollection.Add(s);
 		}

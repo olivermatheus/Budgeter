@@ -11,7 +11,7 @@ namespace Budgeter
 			InitializeComponent();
 		}
 
-		// dummy code to test collection view splits data
+		// test code to test collection view splits data
 		public static List<Split> SetSplits()
 		{
             return

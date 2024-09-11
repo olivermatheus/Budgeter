@@ -10,7 +10,9 @@ namespace Budgeter.ViewModels;
 public partial class DetailViewModel : ObservableObject
 {
     public DetailViewModel() {
-        
+        // string oldName = ThisSplit.Name;
+        // decimal oldValue = ThisSplit.Value;
+        // double oldPercent = ThisSplit.Percent;
     }
 
     [ObservableProperty]
@@ -46,12 +48,14 @@ public partial class DetailViewModel : ObservableObject
 		// 	});
     }
 
+    // return to main screen
     [RelayCommand]
     async Task GoBack() {
-        
+        WeakReferenceMessenger.Default.Send(new ChangeSplitMessage1(ThisSplit));
         await Shell.Current.GoToAsync("..");
     }
 
+    // delete split
     [RelayCommand]
     async Task Delete() {
         WeakReferenceMessenger.Default.Send(new DeleteSplitMessage(ThisSplit));

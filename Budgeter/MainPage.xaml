@@ -100,7 +100,7 @@
                             <TapGestureRecognizer Command="{Binding BindingContext.OpenSplitCommand, Source={x:Reference splits}}" 
                                 CommandParameter="{Binding .}" />
                                                 
-                            <!-- <DragGestureRecognizer CanDrag="True" /> -->
+                            <DragGestureRecognizer CanDrag="True" />
                         </Border.GestureRecognizers>
                         <Grid
                             Margin="12"
