@@ -160,7 +160,7 @@
                     VerticalOptions="End"
                     HeightRequest="70"
                     Source="plus.png" 
-                    Command="{Binding AddSplitCommand}"
+                    Command="{Binding NewSplitCommand}"
                     BorderColor="{AppThemeBinding Light={DynamicResource PrimaryDark}, Dark={DynamicResource PrimaryDark}}"/>
             </CollectionView.Footer>
         </CollectionView>

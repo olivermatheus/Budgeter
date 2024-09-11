@@ -11,6 +11,6 @@ namespace Budgeter
 		public string Name { get; set; }
 		public decimal Value { get; set; }
 		public double Percent { get; set; }
-		public int ID { get; set; }
+		public int Id { get; set; }
 	}
 }

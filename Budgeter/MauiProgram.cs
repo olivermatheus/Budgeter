@@ -11,8 +11,9 @@ namespace Budgeter
             var builder = MauiApp.CreateBuilder();
             builder.UseMauiApp<App>().ConfigureFonts(fonts =>
             {
-                fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
+                // fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
+                fonts.AddFont("sujetbi_.ttf", "Sujeta");
             }).UseMauiCommunityToolkit();
 #if DEBUG
             builder.Logging.AddDebug();

@@ -12,7 +12,7 @@
             </ResourceDictionary.MergedDictionaries>
 
             <Color x:Key="LightGradient1">#22EE44</Color>
-            <Color x:Key="LightGradient2">#151B16</Color>
+            <Color x:Key="LightGradient2">#00160B</Color>
 
             <Color x:Key="DarkGradient1">#023800</Color>
             <Color x:Key="DarkGradient2">#0E1610</Color>

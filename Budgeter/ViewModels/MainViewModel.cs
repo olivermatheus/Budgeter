@@ -1,17 +1,31 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using Budgeter.Messages;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Microsoft.VisualBasic;
+using CommunityToolkit.Mvvm.Messaging;
 using System.Collections.ObjectModel;
-using System.Text.Json;
 
-namespace Budgeter.ViewModels
-{
+namespace Budgeter.ViewModels;
+
+//[QueryProperty("SplitEdit","Split")]
     public partial class MainViewModel : ObservableObject
     {
         public MainViewModel() {
 			// splitsCollection = MainPage.SetSplits();
-			splitsCollection = MainPage.GetDefaultSplits("default_split.json");
-			totalValue = MainPage.CalculateTotal(splitsCollection);
+			SplitsCollection = MainPage.GetDefaultSplits("default_split.json");
+			totalValue = MainPage.CalculateTotal(SplitsCollection);
+
+			WeakReferenceMessenger.Default.Register<DeleteSplitMessage>(this, (r, m) => 
+			{
+				MainThread.BeginInvokeOnMainThread(() =>{
+					RemoveSplit(m.Value);
+				});
+			});
+			WeakReferenceMessenger.Default.Register<ChangeSplitMessage1>(this, (r, m) => 
+			{
+				MainThread.BeginInvokeOnMainThread(() =>{
+					ChangeSplit(m.Value);
+				});
+			});
         }
 
         [ObservableProperty]
@@ -25,26 +39,35 @@ namespace Budgeter.ViewModels
         ObservableCollection<Split> splitsCollection = [];
 
 		[RelayCommand]
-		async void OpenSplit(Split split) {
-			// splitsCollection.Add(new Split { Name = "OPEN SUCCESS", Value = 0, Percent = 0 });
-
-			await Shell.Current.GoToAsync($"{nameof(DetailPage)}", 
+		async Task OpenSplit(Split thisSplit) { 
+			await Shell.Current.GoToAsync(nameof(DetailPage), 
 			new Dictionary<string, object> {
-				{nameof(DetailPage), split},
+				{"Split", thisSplit},
 			});
 		}
 
 		[RelayCommand]
-		void AddSplit() {
-			SplitsCollection.Add(new Split { Name = "TEST", Value = 2, Percent = 0.2, ID=3 });
+		void NewSplit() {
+			SplitsCollection.Add(new Split { Name = "TEST", Value = 2, Percent = 0.2, Id=4 });
 		}
 
-		[RelayCommand]
 		void RemoveSplit(Split s) {
 			if(SplitsCollection.Contains(s)) {
 				SplitsCollection.Remove(s);
 			}
 		}
 
+		void ChangeSplit(Split s) {
+			int tempId = s.Id;
+			var itemToRemove = SplitsCollection.FirstOrDefault(s => s.Id == tempId);
+
+			// If found, remove it from the collection
+			if (itemToRemove != null)
+			{
+				SplitsCollection.Remove(itemToRemove);
+			}
+			
+			SplitsCollection.Add(s);
+		}
+
 	}
-}
