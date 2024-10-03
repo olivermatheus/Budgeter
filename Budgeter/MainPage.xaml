@@ -5,9 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:vm="clr-namespace:Budgeter.ViewModels"
     x:DataType="vm:MainViewModel"
-    Shell.NavBarIsVisible="False"
-    MaximumHeightRequest="1000"
-    MaximumWidthRequest="1000">
+    Shell.NavBarIsVisible="False">
     <ContentPage.Background>
         <LinearGradientBrush EndPoint="0.5,2">
             <GradientStop Offset="0" Color="{AppThemeBinding Light={DynamicResource LightGradient1}, Dark={DynamicResource DarkGradient1}}" />
@@ -20,20 +18,20 @@
         ColumnDefinitions="1*, 1*"
         ColumnSpacing="15"
         RowDefinitions="*"
-        VerticalOptions="Start">
+        VerticalOptions="Center">
 
         <!--  Column 1  -->
         <Grid
             ColumnDefinitions="1*,1*,1*"
             ColumnSpacing="16"
-            MaximumWidthRequest="450"
+            MaximumWidthRequest="500"
             RowDefinitions="5*,1*,1*,1*"
             RowSpacing="16"
             VerticalOptions="Center">
             <Image
                 Grid.ColumnSpan="3"
                 HorizontalOptions="Center"
-                MaximumHeightRequest="120"
+                MaximumHeightRequest="130"
                 Source="budgeter.png" />
             <Label
                 Grid.Row="1"
@@ -85,7 +83,8 @@
             ZIndex="1"
             Grid.Column="1"
             VerticalOptions="Center"
-            VerticalScrollBarVisibility="Never">
+            VerticalScrollBarVisibility="Never"
+            SelectionMode="None">
             <CollectionView.ItemsLayout>
                 <LinearItemsLayout ItemSpacing="6" Orientation="Vertical" />
             </CollectionView.ItemsLayout>
@@ -94,13 +93,17 @@
                     <Border
                         Grid.Column="0"
                         Padding="10,4,10,5"
-                        HeightRequest="160"
+                        HeightRequest="180"
                         StrokeShape="RoundRectangle 8">
                         <Border.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding BindingContext.OpenSplitCommand, Source={x:Reference splits}}" 
                                 CommandParameter="{Binding .}" />
-                                                
-                            <DragGestureRecognizer CanDrag="True" />
+                            <DragGestureRecognizer CanDrag="True" 
+                                                   DragStartingCommand="{Binding Source={RelativeSource AncestorType={x:Type vm:MainViewModel}}, Path=DragStartingCommand}"
+                                                   DragStartingCommandParameter="{Binding .}"/>
+                            <DropGestureRecognizer AllowDrop="True" 
+                                                   DropCommand="{Binding Source={RelativeSource AncestorType={x:Type vm:MainViewModel}}, Path=DropCommand}" 
+                                                   DropCommandParameter="{Binding .}" />
                         </Border.GestureRecognizers>
                         <Grid
                             Margin="12"

@@ -25,6 +25,8 @@ namespace Budgeter
 
             services.AddTransient<DetailPage>();
             services.AddTransient<DetailViewModel>();
+            services.AddTransient<NewSplitPage>();
+            services.AddTransient<NewSplitViewModel>();
 
             return builder.Build();
         }

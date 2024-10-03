@@ -7,6 +7,7 @@
 			InitializeComponent();
 
 			Routing.RegisterRoute(nameof(DetailPage), typeof(DetailPage));
+			Routing.RegisterRoute(nameof(NewSplitPage), typeof(NewSplitPage));
 		}
 	}
 }

@@ -10,9 +10,7 @@ namespace Budgeter.ViewModels;
 public partial class DetailViewModel : ObservableObject
 {
     public DetailViewModel() {
-        // string oldName = ThisSplit.Name;
-        // decimal oldValue = ThisSplit.Value;
-        // double oldPercent = ThisSplit.Percent;
+        
     }
 
     [ObservableProperty]

@@ -9,6 +9,8 @@ namespace Budgeter.ViewModels;
 //[QueryProperty("SplitEdit","Split")]
     public partial class MainViewModel : ObservableObject
     {
+		private Split _draggedSplit;
+
         public MainViewModel() {
 			// splitsCollection = MainPage.SetSplits();
 			SplitsCollection = MainPage.GetDefaultSplits("default_split.json");
@@ -39,11 +41,37 @@ namespace Budgeter.ViewModels;
         ObservableCollection<Split> splitsCollection = [];
 
 		[RelayCommand]
+		private void DragStarting(Split split)
+		{
+			_draggedSplit = split; // Store the item being dragged
+		}
+
+		[RelayCommand]
+		private void Drop(Split targetItem)
+		{
+			if (_draggedSplit == null || targetItem == null || _draggedSplit == targetItem)
+				return;
+
+			// get the original and new indices
+			int originalIndex = SplitsCollection.IndexOf(_draggedSplit);
+			int targetIndex = SplitsCollection.IndexOf(targetItem);
+
+			// reorder accordingly
+			if (originalIndex != targetIndex)
+			{
+				SplitsCollection.RemoveAt(originalIndex);
+				SplitsCollection.Insert(targetIndex, _draggedSplit);
+			}
+
+			_draggedSplit = null; // Reset the dragged item
+		}
+
+		[RelayCommand]
 		async Task OpenSplit(Split thisSplit) { 
 			int tempId = thisSplit.Id;
 			var itemToRemove = SplitsCollection.FirstOrDefault(s => s.Id == tempId);
 
-			// If found, remove it from the collection
+			// if found, remove it from the collection
 			if (itemToRemove != null)
 			{
 				SplitsCollection.Remove(itemToRemove);
@@ -56,33 +84,34 @@ namespace Budgeter.ViewModels;
 
 		[RelayCommand]
 		async Task NewSplit() {
-			// SplitsCollection.Add(new Split { Name = "TEST", Value = 2, Percent = 0.2, Id=4 });
-			int counter = 0, newId = 0;
+			int splitCount = SplitsCollection.Count;
 			bool idFound = false;
-			int[] ids = new int[SplitsCollection.Count];
+			int[] ids = new int[splitCount];
 
-			// iterate through existing IDs until an unused integer is found
-			while(counter < SplitsCollection.Count) {
+			// gather all ids into array
+			int counter = 0;
+			while(counter < splitCount) {
 				ids[counter] = SplitsCollection[counter].Id;
 				counter++;
 			}
-			
-			counter=0;
-			while(idFound == false) {
-				newId++;
-				if(ids[counter] != newId) {
-					idFound=true;
+			// cycle through ids until an unused one is found
+			int newId = 1;
+			while(idFound==false) {
+				if(ids.Contains(newId)) {
+					newId++;
 				}
-				counter++;
+				else {
+					idFound = true;
+				}
 			}
 			
-			
 			Split newSplit = new Split { Name = "--", Value = 0, Percent = 0, Id=newId };
+			await Shell.Current.GoToAsync(nameof(NewSplitPage));
 
-			await Shell.Current.GoToAsync(nameof(DetailPage), 
-			new Dictionary<string, object> {
-				{"Split", newSplit},
-			});
+			// await Shell.Current.GoToAsync(nameof(NewSplitPage), 
+			// new Dictionary<string, object> {
+			// 	{"Split", newSplit},
+			// });
 		}
 
 		void RemoveSplit(Split s) {
