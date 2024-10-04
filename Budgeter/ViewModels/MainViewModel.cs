@@ -6,7 +6,6 @@ using System.Collections.ObjectModel;
 
 namespace Budgeter.ViewModels;
 
-//[QueryProperty("SplitEdit","Split")]
     public partial class MainViewModel : ObservableObject
     {
 		private Split _draggedSplit;
@@ -40,19 +39,26 @@ namespace Budgeter.ViewModels;
         [ObservableProperty]
         ObservableCollection<Split> splitsCollection = [];
 
+		//
+		// User Actions 
+		// 
+
+		// For dragging and dropping splits
 		[RelayCommand]
 		private void DragStarting(Split split)
 		{
-			_draggedSplit = split; // Store the item being dragged
+			// Store the item being dragged
+			_draggedSplit = split; 
 		}
 
+		// For dragging and dropping splits
 		[RelayCommand]
 		private void Drop(Split targetItem)
 		{
 			if (_draggedSplit == null || targetItem == null || _draggedSplit == targetItem)
 				return;
 
-			// get the original and new indices
+			// Get the original and new indices
 			int originalIndex = SplitsCollection.IndexOf(_draggedSplit);
 			int targetIndex = SplitsCollection.IndexOf(targetItem);
 
@@ -63,38 +69,67 @@ namespace Budgeter.ViewModels;
 				SplitsCollection.Insert(targetIndex, _draggedSplit);
 			}
 
-			_draggedSplit = null; // Reset the dragged item
+			// There's still a bug where old names show in certain positions, so this brute forces past this
+			RefreshSplitsCollection();
+
+			// Reset the dragged item
+			_draggedSplit = null; 
 		}
 
 		[RelayCommand]
 		async Task OpenSplit(Split thisSplit) { 
-			int tempId = thisSplit.Id;
-			var itemToRemove = SplitsCollection.FirstOrDefault(s => s.Id == tempId);
-
-			// if found, remove it from the collection
-			if (itemToRemove != null)
+			var detailViewModel = new DetailViewModel(thisSplit);
+			var detailPage = new DetailPage
 			{
-				SplitsCollection.Remove(itemToRemove);
-			}
-			await Shell.Current.GoToAsync(nameof(DetailPage), 
-			new Dictionary<string, object> {
-				{"Split", thisSplit},
-			});
+				BindingContext = detailViewModel
+			};
+
+        	await Shell.Current.Navigation.PushAsync(detailPage);
 		}
 
 		[RelayCommand]
 		async Task NewSplit() {
-			int splitCount = SplitsCollection.Count;
-			bool idFound = false;
-			int[] ids = new int[splitCount];
+			int newId = FindNextID();
+			
+			Split newSplit = new Split { Name = "--", Value = 0, Percent = 0, Id=newId };
+			SplitsCollection.Add(newSplit);
+			var detailViewModel = new DetailViewModel(newSplit);
+			var detailPage = new DetailPage
+			{
+				BindingContext = detailViewModel
+			};
 
-			// gather all ids into array
+        	await Shell.Current.Navigation.PushAsync(detailPage);
+		}
+
+		// This runs when the user delete the split from the detail page
+		void RemoveSplit(Split s) {
+			if(SplitsCollection.Contains(s)) {
+				SplitsCollection.Remove(s);
+			}
+		}
+
+		// This function runs when the user makes changes and presses save on the detail page
+		void ChangeSplit(Split s) {
+			RefreshSplitsCollection();
+		}
+
+		//
+		// Program tools
+		// 
+
+		// This searches through the splits and returns an unused ID number
+		int FindNextID() {
+			bool idFound = false;
+			int[] ids = new int[SplitsCollection.Count];
+
+			// Gather all ids into array
 			int counter = 0;
-			while(counter < splitCount) {
+			while(counter < SplitsCollection.Count) {
 				ids[counter] = SplitsCollection[counter].Id;
 				counter++;
 			}
-			// cycle through ids until an unused one is found
+			// Cycle through ids until an unused one is found
 			int newId = 1;
 			while(idFound==false) {
 				if(ids.Contains(newId)) {
@@ -104,25 +139,22 @@ namespace Budgeter.ViewModels;
 					idFound = true;
 				}
 			}
-			
-			Split newSplit = new Split { Name = "--", Value = 0, Percent = 0, Id=newId };
-			await Shell.Current.GoToAsync(nameof(NewSplitPage));
 
-			// await Shell.Current.GoToAsync(nameof(NewSplitPage), 
-			// new Dictionary<string, object> {
-			// 	{"Split", newSplit},
-			// });
+			return newId;
 		}
 
-		void RemoveSplit(Split s) {
-			if(SplitsCollection.Contains(s)) {
-				SplitsCollection.Remove(s);
+		// This function forces the UI to refresh the collection and update the displayed properties
+		void RefreshSplitsCollection() {
+			Collection<Split> temp = new Collection<Split>();
+
+			for(int i=0; i<SplitsCollection.Count; i++) {
+				temp.Add(SplitsCollection[i]);
 			}
-		}
 
-		void ChangeSplit(Split s) {
-			
-			SplitsCollection.Add(s);
+			SplitsCollection.Clear();
+			for(int i=0; i<temp.Count; i++) {
+				SplitsCollection.Add(temp[i]);
+			}
 		}
 
 	}

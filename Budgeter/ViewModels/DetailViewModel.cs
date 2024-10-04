@@ -6,38 +6,42 @@ using Microsoft.Maui.Graphics.Text;
 
 namespace Budgeter.ViewModels;
 
-[QueryProperty("ThisSplit", "Split")]
+//[QueryProperty("ThisSplit", "Split")]
 public partial class DetailViewModel : ObservableObject
 {
-    public DetailViewModel() {
-        
+    private Split _split;
+
+    public Split Split
+    {
+        get => _split;
+        set => SetProperty(ref _split, value);
     }
 
+    public DetailViewModel(Split thisSplit) {
+        Split = thisSplit;
+    }
+
+    // [ObservableProperty]
+    // Split thisSplit;
     [ObservableProperty]
-    Split thisSplit;
-    [ObservableProperty]
-    string name, tempName, tempValue, tempPercent;
-    [ObservableProperty]
-    decimal value;
-    [ObservableProperty]
-    double percent;
+    private string _tempName, _tempValue, _tempPercent;
 
     [RelayCommand]
-    async Task Save() {
+    private async Task Save() {
         
         if (TempName != null) 
         {
-            ThisSplit.Name = TempName;
+            Split.Name = TempName;
         }
 
         if (TempValue != null) {
-            ThisSplit.Value = decimal.Parse(TempValue);
+            Split.Value = decimal.Parse(TempValue);
         }
 
         if (TempPercent != null) {
-            ThisSplit.Percent = double.Parse(TempPercent);
+            Split.Percent = double.Parse(TempPercent);
         }
-        WeakReferenceMessenger.Default.Send(new ChangeSplitMessage1(ThisSplit));
+        WeakReferenceMessenger.Default.Send(new ChangeSplitMessage1(Split));
         //WeakReferenceMessenger.Default.Send(new DeleteSplitMessage(ThisSplit));
         await Shell.Current.GoToAsync("..");
         // , 
@@ -49,14 +53,14 @@ public partial class DetailViewModel : ObservableObject
     // return to main screen
     [RelayCommand]
     async Task GoBack() {
-        WeakReferenceMessenger.Default.Send(new ChangeSplitMessage1(ThisSplit));
+        // WeakReferenceMessenger.Default.Send(new ChangeSplitMessage1(ThisSplit));
         await Shell.Current.GoToAsync("..");
     }
 
     // delete split
     [RelayCommand]
     async Task Delete() {
-        WeakReferenceMessenger.Default.Send(new DeleteSplitMessage(ThisSplit));
+        WeakReferenceMessenger.Default.Send(new DeleteSplitMessage(Split));
         await GoBack();
     }
 }

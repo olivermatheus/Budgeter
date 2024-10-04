@@ -4,9 +4,8 @@ namespace Budgeter;
 
 public partial class DetailPage : ContentPage
 {
-	public DetailPage(DetailViewModel vm)
+	public DetailPage()
 	{
 		InitializeComponent();
-		BindingContext = vm;
 	}
 }

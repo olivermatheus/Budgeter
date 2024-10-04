@@ -26,7 +26,7 @@
                     HorizontalOptions="Center" />
                 <Entry 
                     x:Name="NameEntry"
-                    Placeholder="{Binding ThisSplit.Name}"
+                    Placeholder="{Binding Split.Name}"
                     Text="{Binding TempName}"
                     WidthRequest="200"
                     TextColor="White"
@@ -38,7 +38,7 @@
                     HorizontalOptions="Center" />
                 <Entry
                     x:Name="ValueEntry"
-                    Placeholder="{Binding ThisSplit.Value}" 
+                    Placeholder="{Binding Split.Value}" 
                     Text="{Binding TempValue}"
                     WidthRequest="200"
                     TextColor="White"
@@ -50,7 +50,7 @@
                     HorizontalOptions="Center"/>
                 <Entry
                     x:Name="PercentEntry"
-                    Placeholder="{Binding ThisSplit.Percent}"
+                    Placeholder="{Binding Split.Percent}"
                     Text="{Binding TempPercent}"
                     WidthRequest="100"
                     HorizontalTextAlignment="Center"
