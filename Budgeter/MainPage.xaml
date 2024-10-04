@@ -7,7 +7,7 @@
     x:DataType="vm:MainViewModel"
     Shell.NavBarIsVisible="False">
     <ContentPage.Background>
-        <LinearGradientBrush EndPoint="0,1">
+        <LinearGradientBrush EndPoint="0.5,2">
             <GradientStop Offset="0" Color="{AppThemeBinding Light={DynamicResource LightGradient1}, Dark={DynamicResource DarkGradient1}}" />
             <GradientStop Offset="1" Color="{AppThemeBinding Light={DynamicResource LightGradient2}, Dark={DynamicResource DarkGradient2}}" />
         </LinearGradientBrush>
@@ -18,27 +18,26 @@
         ColumnDefinitions="1*, 1*"
         ColumnSpacing="15"
         RowDefinitions="*"
-        VerticalOptions="Start">
+        VerticalOptions="Center">
 
         <!--  Column 1  -->
         <Grid
             ColumnDefinitions="1*,1*,1*"
             ColumnSpacing="16"
-            MaximumWidthRequest="450"
+            MaximumWidthRequest="500"
             RowDefinitions="5*,1*,1*,1*"
             RowSpacing="16"
             VerticalOptions="Center">
             <Image
                 Grid.ColumnSpan="3"
                 HorizontalOptions="Center"
-                MaximumHeightRequest="120"
+                MaximumHeightRequest="130"
                 Source="budgeter.png" />
             <Label
                 Grid.Row="1"
                 Grid.Column="0"
                 Grid.ColumnSpan="2"
                 Padding="10,0,0,0"
-                TextColor="{DynamicResource Secondary}"
                 FontAttributes="Bold"
                 FontSize="Large"
                 HorizontalOptions="Start"
@@ -49,59 +48,62 @@
                 Grid.Column="1"
                 Grid.ColumnSpan="2"
                 Padding="0,0,10,0"
-                TextColor="{DynamicResource Secondary}"
                 FontAttributes="Bold"
                 FontSize="Large"
                 HorizontalOptions="End"
-                Text="{Binding TotalValue, StringFormat='{0:0,0}'}"
+                Text="{Binding TotalValue, StringFormat='${0:0,0.00}'}"
                 VerticalOptions="Center" />
             <Button
                 Grid.Row="2"
                 Grid.ColumnSpan="3"
                 FontAttributes="Bold"
                 FontSize="30"
-                Text="DEPOSIT"/>
+                Text="DEPOSIT" />
             <ImageButton
+                Padding="10"
                 Grid.Row="3"
                 Grid.Column="0"
                 Source="info.png" />
             <ImageButton
+                Padding="10"
                 Grid.Row="3"
                 Grid.Column="1"
                 Source="history.png" />
             <ImageButton
+                Padding="10"
                 Grid.Row="3"
                 Grid.Column="2"
-                Source="settings.png"/>
+                Source="settings.png" />
         </Grid>
 
         <!--  Column 2  -->
-        <Frame
-            Grid.Column="1"
-            ZIndex="0"
-            Background="Transparent"
-            HeightRequest="575"/>
         <CollectionView
+            x:Name="splits"
             ItemsSource="{Binding SplitsCollection}"
             ZIndex="1"
             Grid.Column="1"
             VerticalOptions="Center"
-            VerticalScrollBarVisibility="Never">
+            VerticalScrollBarVisibility="Never"
+            SelectionMode="None">
             <CollectionView.ItemsLayout>
-                <LinearItemsLayout ItemSpacing="8" Orientation="Vertical" />
+                <LinearItemsLayout ItemSpacing="6" Orientation="Vertical" />
             </CollectionView.ItemsLayout>
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <Border
                         Grid.Column="0"
                         Padding="10,4,10,5"
-                        HeightRequest="140">
-                        <Border.StrokeShape>
-                            <RoundRectangle CornerRadius="8"/>
-                        </Border.StrokeShape>
+                        HeightRequest="180"
+                        StrokeShape="RoundRectangle 8">
                         <Border.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding SplitTappedCommand}" />
-                            <!-- <DragGestureRecognizer CanDrag="True" /> -->
+                            <TapGestureRecognizer Command="{Binding BindingContext.OpenSplitCommand, Source={x:Reference splits}}" 
+                                CommandParameter="{Binding .}" />
+                            <DragGestureRecognizer CanDrag="True" 
+                                                   DragStartingCommand="{Binding Source={RelativeSource AncestorType={x:Type vm:MainViewModel}}, Path=DragStartingCommand}"
+                                                   DragStartingCommandParameter="{Binding .}"/>
+                            <DropGestureRecognizer AllowDrop="True" 
+                                                   DropCommand="{Binding Source={RelativeSource AncestorType={x:Type vm:MainViewModel}}, Path=DropCommand}" 
+                                                   DropCommandParameter="{Binding .}" />
                         </Border.GestureRecognizers>
                         <Grid
                             Margin="12"
@@ -112,27 +114,29 @@
                                 Grid.Row="0"
                                 Grid.Column="0"
                                 FontAttributes="Bold"
-                                FontSize="34"
+                                FontSize="36"
                                 Text="{Binding Name}"
-                                VerticalTextAlignment="Start"/>
+                                VerticalTextAlignment="Start" />
                             <Label
                                 Grid.Row="0"
                                 Grid.Column="1"
                                 FontAttributes="Bold"
-                                FontSize="34"
+                                FontSize="36"
                                 HorizontalTextAlignment="End"
                                 Text="{Binding Value, StringFormat='${0:0,0.00}'}"
                                 VerticalTextAlignment="Start" />
                             <Label
                                 Grid.Row="1"
                                 Grid.Column="0"
-                                FontSize="26"
+                                FontAttributes="None"
+                                FontSize="28"
                                 Text="Percent:"
                                 VerticalTextAlignment="End" />
                             <Label
                                 Grid.Row="1"
                                 Grid.Column="1"
-                                FontSize="26"
+                                FontAttributes="None"
+                                FontSize="28"
                                 HorizontalTextAlignment="End"
                                 Text="{Binding Percent, StringFormat='{0}%'}"
                                 VerticalTextAlignment="End" />
@@ -141,28 +145,26 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
             <CollectionView.Header>
-                <HorizontalStackLayout HorizontalOptions="CenterAndExpand" >
-                    <Button
-                        HeightRequest="45"
-                        WidthRequest="130"
-                        Margin="0,10,0,2"
+                <VerticalStackLayout 
+                    Margin="0,10,0,6">
+                    <ImageButton
+                        HorizontalOptions="FillAndExpand"
+                        HeightRequest="50"
+                        Padding="0"
                         CornerRadius="8"
-                        Text="Sort"
-                        TextColor="{AppThemeBinding Light={DynamicResource PrimaryDark}, Dark={DynamicResource PrimaryDarker}}"
-                        BorderColor="{AppThemeBinding Light={DynamicResource PrimaryDark}, Dark={DynamicResource PrimaryDarker}}"
+                        Source="sort.png"
+                        BorderColor="{AppThemeBinding Light={DynamicResource PrimaryDark}, Dark={DynamicResource PrimaryDark}}"
                     />    
-                </HorizontalStackLayout>
+                </VerticalStackLayout>
             </CollectionView.Header>
             <CollectionView.Footer>
                 <ImageButton
-                    BackgroundColor="{AppThemeBinding Light={DynamicResource Primary2}, Dark={DynamicResource PrimaryDarker}}"
-                    BorderColor="{AppThemeBinding Light={DynamicResource PrimaryDark}, Dark={DynamicResource Secondary}}"
-                    Grid.Column="1"
-                    Margin="0,8,0,15"
+                    Margin="0,6,0,10"
                     VerticalOptions="End"
                     HeightRequest="70"
-                    Source="add.png" 
-                    Command="{Binding AddSplitCommand}"/>
+                    Source="plus.png" 
+                    Command="{Binding NewSplitCommand}"
+                    BorderColor="{AppThemeBinding Light={DynamicResource PrimaryDark}, Dark={DynamicResource PrimaryDark}}"/>
             </CollectionView.Footer>
         </CollectionView>
     </Grid>
