@@ -10,7 +10,8 @@ My goal with the Budgeter is to make a streamlined, simple, convenient, but powe
 - [x] Open budgets from a JSON/CSV file
 - [ ] Save budgets to a JSON/CSV file
 - [ ] Log money either into total or into a certain split [^1]
-- [ ] Create unlimited custom splits
+- [x] Drag and drop splits to change order
+- [x] Create unlimited custom splits
 - [ ] Organize purchases by category and generate summary monthly
 - [ ] Plan future purchases under any splits
 - [ ] Sort splits cards[^2] by percentage, money, & alphabetically
