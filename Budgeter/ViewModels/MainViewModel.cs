@@ -89,7 +89,7 @@ namespace Budgeter.ViewModels;
 
 		[RelayCommand]
 		async Task NewSplit() {
-			int newId = FindNextID();
+			int newId = FindNewID();
 			
 			Split newSplit = new Split { Name = "--", Value = 0, Percent = 0, Id=newId };
 			SplitsCollection.Add(newSplit);
@@ -119,7 +119,7 @@ namespace Budgeter.ViewModels;
 		// 
 
 		// This searches through the splits and returns an unused ID number
-		int FindNextID() {
+		int FindNewID() {
 			bool idFound = false;
 			int[] ids = new int[SplitsCollection.Count];
 
